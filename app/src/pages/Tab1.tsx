@@ -12,25 +12,23 @@ import {
 import ExploreContainer from '../components/ExploreContainer';
 import './Tab1.css';
 import {useEffect, useState} from "react";
-import useUsers, {User} from "../hooks/useUsers";
+
+import {nextToRetiro} from "../hooks/useFerrovias.tsx";
+
 
 const Tab1: React.FC = () => {
     // @ts-ignore
-    const {handleGetAllUsers} = useUsers()
 
-    const emptyUserList: User[] = []
-    const [data, setData] = useState(emptyUserList)
+    const [nextTrainWeekDay, setNextTrainWeekDay] = useState("")
+    const [nextTrainSaturday, setNextTrainSaturday] = useState("")
+    const [nextTrainSunday, setNextTrainSunday] = useState("")
 
-    const fetchData = async () => {
-        const res: User[] = await handleGetAllUsers()
-        if(res !== null && res !== undefined) {
-            setData(res);
-        }
-        console.log(res)
-    }
 
     useEffect(() => {
-        fetchData().then()
+        const {weekDay, saturday, sunday} = nextToRetiro();
+        setNextTrainWeekDay(weekDay === null ? '-' : weekDay)
+        setNextTrainSaturday(saturday === null ? '-' : saturday)
+        setNextTrainSunday(sunday === null ? '-' : sunday)
     }, [])
 
     // @ts-ignore
@@ -38,28 +36,53 @@ const Tab1: React.FC = () => {
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>Tab 1</IonTitle>
+          <IonTitle>A Retiro</IonTitle>
         </IonToolbar>
       </IonHeader>
         <IonContent fullscreen>
             <IonHeader collapse="condense">
                 <IonToolbar>
-                    <IonTitle size="large">Tab 1</IonTitle>
+                    <IonTitle size="large">A Retiro</IonTitle>
                 </IonToolbar>
             </IonHeader>
 
-            {
-                data.map((user, key)=> (
-                    <IonCard key={key}>
-                        <IonCardHeader>
-                            <IonCardTitle>{user.userName}</IonCardTitle>
-                            {/*<IonCardSubtitle>Card Subtitle</IonCardSubtitle>*/}
-                        </IonCardHeader>
 
-                        {/*<IonCardContent>Here's a small text description for the card content. Nothing more, nothing less.</IonCardContent>*/}
-                    </IonCard>
-                ))
-            }
+            <h1 className="ion-text-center">
+                Lunes a Viernes
+            </h1>
+            <IonCard>
+                <IonCardHeader>
+                    <IonCardTitle>{nextTrainWeekDay}</IonCardTitle>
+                    <IonCardSubtitle>M.M. Padilla a Retiro</IonCardSubtitle>
+                </IonCardHeader>
+
+                {/*<IonCardContent>Here's a small text description for the card content. Nothing more, nothing less.</IonCardContent>*/}
+            </IonCard>
+
+            <h1 className="ion-text-center">
+                Sabados
+            </h1>
+            <IonCard>
+                <IonCardHeader>
+                    <IonCardTitle>{nextTrainSaturday}</IonCardTitle>
+                    <IonCardSubtitle>M.M. Padilla a Retiro</IonCardSubtitle>
+                </IonCardHeader>
+
+                {/*<IonCardContent>Here's a small text description for the card content. Nothing more, nothing less.</IonCardContent>*/}
+            </IonCard>
+
+            <h1 className="ion-text-center">
+                Domingos y feriados
+            </h1>
+            <IonCard>
+                <IonCardHeader>
+                    <IonCardTitle>{nextTrainSunday}</IonCardTitle>
+                    <IonCardSubtitle>M.M. Padilla a Retiro</IonCardSubtitle>
+                </IonCardHeader>
+
+                {/*<IonCardContent>Here's a small text description for the card content. Nothing more, nothing less.</IonCardContent>*/}
+            </IonCard>
+
 
         </IonContent>
     </IonPage>
