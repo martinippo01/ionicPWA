@@ -1,3 +1,4 @@
+import React, { useState } from 'react';
 import { Redirect, Route } from 'react-router-dom';
 import {
   IonApp,
@@ -7,10 +8,13 @@ import {
   IonTabBar,
   IonTabButton,
   IonTabs,
+  IonModal,
+  IonButton,
+  IonContent,
   setupIonicReact
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
-import {arrowBack, arrowForward, arrowUp, ellipse, square, triangle} from 'ionicons/icons';
+import { arrowBack, arrowForward } from 'ionicons/icons';
 import Tab1 from './pages/Tab1';
 import Tab2 from './pages/Tab2';
 import Tab3 from './pages/Tab3';
@@ -36,41 +40,54 @@ import './theme/variables.css';
 
 setupIonicReact();
 
-const App: React.FC = () => (
-  <IonApp>
-    <IonReactRouter>
-      <IonTabs>
-        <IonRouterOutlet>
-          <Route exact path="/tab1">
-            <Tab1 />
-          </Route>
-          <Route exact path="/tab2">
-            <Tab2 />
-          </Route>
-          <Route path="/tab3">
-            <Tab3 />
-          </Route>
-          <Route exact path="/">
-            <Redirect to="/tab1" />
-          </Route>
-        </IonRouterOutlet>
-        <IonTabBar slot="bottom">
-          <IonTabButton tab="tab1" href="/tab1">
-            <IonIcon aria-hidden="true" icon={arrowForward} />
-            <IonLabel>A Retiro</IonLabel>
-          </IonTabButton>
-          <IonTabButton tab="tab2" href="/tab2">
-            <IonIcon aria-hidden="true" icon={arrowBack} />
-            <IonLabel>A Padilla</IonLabel>
-          </IonTabButton>
-          {/*<IonTabButton tab="tab3" href="/tab3">*/}
-          {/*  <IonIcon aria-hidden="true" icon={square} />*/}
-          {/*  <IonLabel>Tab 3</IonLabel>*/}
-          {/*</IonTabButton>*/}
-        </IonTabBar>
-      </IonTabs>
-    </IonReactRouter>
-  </IonApp>
-);
+const App: React.FC = () => {
+  const [isModalOpen, setIsModalOpen] = useState(true); // Manage modal state
+
+  const closeModal = () => {
+    setIsModalOpen(false); // Close modal when button is clicked or backdrop is clicked
+  };
+
+  return (
+    <IonApp>
+      <IonReactRouter>
+        <IonTabs>
+          <IonRouterOutlet>
+            <Route exact path="/tab1">
+              <Tab1 />
+            </Route>
+            <Route exact path="/tab2">
+              <Tab2 />
+            </Route>
+            <Route path="/tab3">
+              <Tab3 />
+            </Route>
+            <Route exact path="/">
+              <Redirect to="/tab1" />
+            </Route>
+          </IonRouterOutlet>
+          <IonTabBar slot="bottom">
+            <IonTabButton tab="tab1" href="/tab1">
+              <IonIcon aria-hidden="true" icon={arrowForward} />
+              <IonLabel>A Retiro</IonLabel>
+            </IonTabButton>
+            <IonTabButton tab="tab2" href="/tab2">
+              <IonIcon aria-hidden="true" icon={arrowBack} />
+              <IonLabel>A Padilla</IonLabel>
+            </IonTabButton>
+          </IonTabBar>
+        </IonTabs>
+
+        {/* Modal: Controlled by state */}
+        <IonModal isOpen={isModalOpen} backdropDismiss={true} onDidDismiss={closeModal}>
+          <IonContent className="ion-padding">
+            <h2>This is a closable pop-up!</h2>
+            <p>You can click the button below or the backdrop to close this modal.</p>
+            <IonButton onClick={closeModal}>Close</IonButton>
+          </IonContent>
+        </IonModal>
+      </IonReactRouter>
+    </IonApp>
+  );
+};
 
 export default App;
