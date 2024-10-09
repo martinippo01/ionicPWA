@@ -80,8 +80,8 @@ const App: React.FC = () => {
         {/* Modal: Controlled by state */}
         <IonModal isOpen={isModalOpen} backdropDismiss={true} onDidDismiss={closeModal}>
           <IonContent className="ion-padding">
-            <h2>This is a closable pop-up!</h2>
-            <p>You can click the button below or the backdrop to close this modal.</p>
+            <h2>Horarios no actualizados</h2>
+            <p>Los horarios que se muestran no se encuentran actualizadoscon los actuales del tren Belgrano norte.</p>
             <IonButton onClick={closeModal}>Close</IonButton>
           </IonContent>
         </IonModal>
